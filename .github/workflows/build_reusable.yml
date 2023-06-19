@@ -53,6 +53,8 @@ env:
   TEST_CONCURRENCY: 6
   # disable backtrace for test snapshots
   RUST_BACKTRACE: 0
+  # Use the mold linker. The default linker is much slower and runs into OOMs.
+  RUSTFLAGS: '-C link-arg=-fuse-ld=mold'
 
   TURBO_TEAM: 'vercel'
   TURBO_REMOTE_ONLY: 'true'
@@ -87,6 +89,11 @@ jobs:
         if: ${{ inputs.skipNativeBuild != 'yes' || inputs.needsNextest == 'yes' || inputs.needsRust == 'yes' }}
         with:
           components: rustfmt, clippy
+
+      - name: 'Install mold linker'
+        run: |
+          sudo apt update
+          sudo apt install -y mold
 
       - name: Install nextest
         if: ${{ inputs.needsNextest == 'yes' }}
