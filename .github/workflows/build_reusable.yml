@@ -7,11 +7,11 @@ on:
         required: false
         description: 'additional steps to run'
         type: string
-      # Toggles the lld linker. The default linker is much slower and can run into OOMs.
+      # Toggles the mold linker. The default linker is much slower and can run into OOMs.
       # However, custom linkers won't work for wasm.
-      lld:
+      mold:
         required: false
-        description: 'whether to use the LLD linker'
+        description: 'whether to use the mold linker'
         type: string
       skipInstallBuild:
         required: false
@@ -94,12 +94,12 @@ jobs:
         with:
           components: rustfmt, clippy
 
-      - name: 'Install lld linker'
-        if: ${{ inputs.lld == 'yes' }}
+      - name: 'Install mold linker'
+        if: ${{ inputs.mold == 'yes' }}
         run: |
           sudo apt update
-          sudo apt install -y lld
-          echo RUSTFLAGS=${RUSTFLAGS}\ -C\ link-arg=-fuse-ld=lld >> $GITHUB_ENV
+          sudo apt install -y mold
+          echo RUSTFLAGS=${RUSTFLAGS}\ -C\ link-arg=-fuse-ld=mold >> $GITHUB_ENV
 
       - name: Install nextest
         if: ${{ inputs.needsNextest == 'yes' }}

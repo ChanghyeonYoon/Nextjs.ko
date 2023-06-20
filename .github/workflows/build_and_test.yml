@@ -73,7 +73,7 @@ jobs:
       skipInstallBuild: 'yes'
       skipNativeBuild: 'yes'
       afterBuild: turbo run test-cargo-unit
-      lld: 'yes'
+      mold: 'yes'
     secrets: inherit
 
   test-cargo-integration:
