@@ -99,7 +99,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y lld
-          echo "RUSTFLAGS='-C link-arg=-fuse-ld=lld $RUSTFLAGS'" >> $GITHUB_ENV
+          echo RUSTFLAGS=${RUSTFLAGS}\ -C\ link-arg=-fuse-ld=lld >> $GITHUB_ENV
 
       - name: Install nextest
         if: ${{ inputs.needsNextest == 'yes' }}
