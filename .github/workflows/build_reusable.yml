@@ -53,8 +53,8 @@ env:
   TEST_CONCURRENCY: 6
   # disable backtrace for test snapshots
   RUST_BACKTRACE: 0
-  # Use the mold linker. The default linker is much slower and runs into OOMs.
-  RUSTFLAGS: '-C link-arg=-fuse-ld=mold'
+  # Use the lld linker. The default linker is much slower and runs into OOMs.
+  RUSTFLAGS: '-C link-arg=-fuse-ld=lld'
 
   TURBO_TEAM: 'vercel'
   TURBO_REMOTE_ONLY: 'true'
@@ -90,10 +90,10 @@ jobs:
         with:
           components: rustfmt, clippy
 
-      - name: 'Install mold linker'
+      - name: 'Install lld linker'
         run: |
           sudo apt update
-          sudo apt install -y mold
+          sudo apt install -y lld
 
       - name: Install nextest
         if: ${{ inputs.needsNextest == 'yes' }}
